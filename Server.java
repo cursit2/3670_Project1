@@ -12,5 +12,9 @@ public class Server{
 
         String str = bf.readLine();
         System.out.println("client: "+ str);
+
+        PrintWriter pr = new PrintWriter(s.getOutputStream());
+        pr.println("Yes it is");
+        pr.flush();
     }
 }

@@ -6,7 +6,13 @@ public class Client{
         Socket s = new Socket("localhost", 4999);
 
         PrintWriter pr = new PrintWriter(s.getOutputStream());
-        pr.println("Hello");
+        pr.println("Is it working?");
         pr.flush();
+
+        InputStreamReader in = new InputStreamReader(s.getInputStream());
+        BufferedReader bf = new BufferedReader(in);
+
+        String str = bf.readLine();
+        System.out.println("server: "+ str);
     }
 }
