@@ -8,42 +8,49 @@ public class JobSeeker{ //server
         int jobVar2;
         boolean badJob = false;
         double sum = 0;
-        ServerSocket ss = new ServerSocket(4999);
-        Socket s = ss.accept();
+        ServerSocket ss = new ServerSocket(4999);   //expand on this
+        //if there are more than one, deny service
+        Socket s = new Socket();
+        //server permanently on. loops after job done.
+        while (true) {
+            s = ss.accept();
+            //server can only connect to one client at a time
+            System.out.println("JobCreator connected. Waiting for Job...");
+            InputStreamReader in = new InputStreamReader(s.getInputStream());
+            BufferedReader bf = new BufferedReader(in);
 
-        System.out.println("JobCreator connected. Waiting for Job...");
-        InputStreamReader in = new InputStreamReader(s.getInputStream());
-        BufferedReader bf = new BufferedReader(in);
+            //get the job type from the creator
+            jobString = bf.readLine();
+            System.out.println("jobCreator: " + jobString);
 
-        //get the job type from the creator
-        jobString = bf.readLine();
-        System.out.println("jobCreator: "+ jobString);
+            //get the 2 variables from creator
+            jobVar1 = Integer.parseInt(bf.readLine());
+            jobVar2 = Integer.parseInt(bf.readLine());
+            System.out.println("var1: " + jobVar1);
+            System.out.println("var2: " + jobVar2);
 
-        //get the 2 variables from creator
-        jobVar1 = Integer.parseInt(bf.readLine());
-        jobVar2 = Integer.parseInt(bf.readLine());
-        System.out.println("var1: "+jobVar1);
-        System.out.println("var2: "+jobVar2);
-
-        PrintWriter pr = new PrintWriter(s.getOutputStream());
-        pr.println("RECEIVED. Job Type: "+jobString + ", var1: "+ jobVar1 + ", var2: "+ jobVar2);
-        pr.flush();
-        //do the calculations
-        switch (jobString) {
-            case "addition", "Addition" -> sum = jobVar1 + jobVar2;
-            case "subtraction", "Subtraction" -> sum = jobVar1 - jobVar2;
-            case "division", "Division" -> sum = (double) (jobVar1 / jobVar2);
-            case "multiplication", "Multiplication" -> sum = jobVar1 * jobVar2;
-            default -> badJob = true;
-        }
-        if(!badJob) {
-            System.out.println("Job finished.");
-            pr.println("Job Complete. sum = " + sum);
+            PrintWriter pr = new PrintWriter(s.getOutputStream());
+            pr.println("RECEIVED. Job Type: " + jobString + ", var1: " + jobVar1 + ", var2: " + jobVar2);
             pr.flush();
-        }else{
-            System.out.println("Job incomplete. Error.");
-            pr.println("Error. Unknown job type.");
-            pr.flush();
+            //do the calculations
+            switch (jobString) {
+                case "addition", "Addition" -> sum = jobVar1 + jobVar2;
+                case "subtraction", "Subtraction" -> sum = jobVar1 - jobVar2;
+                case "division", "Division" -> sum = (double) (jobVar1 / jobVar2);
+                case "multiplication", "Multiplication" -> sum = jobVar1 * jobVar2;
+                default -> badJob = true;
+            }
+            if (!badJob) {
+                System.out.println("Job finished.");
+                pr.println("Job Complete. sum = " + sum);
+                pr.flush();
+            } else {
+                System.out.println("Job incomplete. Error.");
+                pr.println("Error. Unknown job type.");
+                pr.flush();
+            }
+            //end socket for this job.
+            s.close();
         }
     }
 }
