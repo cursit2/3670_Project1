@@ -8,6 +8,7 @@ public class JobCreator{ //client
         String jobType;
         int var1;
         int var2;
+        boolean isJobDone = false;
         try{
         Socket s = new Socket("localhost", 4999);
 
@@ -35,6 +36,10 @@ public class JobCreator{ //client
 
         str = bf.readLine();
         System.out.println("JobSeeker: "+ str);
+        int jobDoneNum = 0;
+        jobDoneNum = bf.read();
+        if (jobDoneNum == 1)
+            isJobDone = true;
         }catch(IOException e){
             System.out.println("Connection failed. Abort");
         }

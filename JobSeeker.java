@@ -44,11 +44,16 @@ public class JobSeeker{ //server
                     pr.println("Job Complete. sum = " + sum);
                     pr.flush();
                     jobDone = true;
+                    pr.println(1);
+                    pr.flush();
                 } else {
                     System.out.println("Job incomplete. Error.");
                     pr.println("Error. Unknown job type.");
                     pr.flush();
+                    pr.println(0);
+                    pr.flush();
                 }
+
                 //end socket for this job.
                 s.close();
             }catch(IOException ioe){
