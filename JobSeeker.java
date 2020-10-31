@@ -7,6 +7,7 @@ public class JobSeeker{ //server
         int jobVar1;
         int jobVar2;
         boolean badJob = false;
+        boolean jobDone = false;
         double sum = 0;
         ServerSocket ss = new ServerSocket(4999);
         Socket s = new Socket();
@@ -42,6 +43,7 @@ public class JobSeeker{ //server
                     System.out.println("Job finished.");
                     pr.println("Job Complete. sum = " + sum);
                     pr.flush();
+                    jobDone = true;
                 } else {
                     System.out.println("Job incomplete. Error.");
                     pr.println("Error. Unknown job type.");
