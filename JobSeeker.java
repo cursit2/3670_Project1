@@ -8,11 +8,8 @@ public class JobSeeker{ //server
         int jobVar2;
         boolean badJob = false;
         double sum = 0;
-        ServerSocket ss = new ServerSocket(4999);   //expand on this
-        //if there are more than one, deny service
+        ServerSocket ss = new ServerSocket(4999);
         Socket s = new Socket();
-        //server permanently on. loops after job done.
-        while (true) {
             try {
                 s = ss.accept();
                 //server can only connect to one client at a time
@@ -54,8 +51,6 @@ public class JobSeeker{ //server
                 s.close();
             }catch(IOException ioe){
                 System.out.println("Error. JobCreator disconnected.");
-                System.out.println("Waiting for new job...");
             }
-        }
     }
 }
